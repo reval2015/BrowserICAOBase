@@ -1,0 +1,15 @@
+"data":[
+    {"barometer":{"hg":29.88,"hpa":1012.0,"kpa":101.19,"mb":1011.92},
+        "clouds":[{"base_feet_agl":3900,"base_meters_agl":1189,"code":"SCT","feet":3900,"meters":1189,"text":"Scattered"}],
+        "conditions":[{"code":"SHRA","prefix":"+","text":"Heavy Showers, Rain"}],
+        "dewpoint":{"celsius":14,"fahrenheit":57},
+        "elevation":{"feet":371,"meters":113},
+        "flight_category":"VFR",
+        "humidity":{"percent":83},
+        "icao":"EDDF",
+        "observed":"2022-09-09T12:50Z","raw_text":"EDDF 091250Z AUTO 25007KT 220V280 9999 +SHRA SCT039 FEW///CB 17/14 Q1012 BECMG NSW",
+        "station":{"geometry":{"coordinates":[8.559294,50.036249],"type":"Point"},"location":"Frankfurt am Main, DE","name":"Frankfurt am Main Airport","type":"Airport"},
+        "temperature":{"celsius":17,"fahrenheit":63},
+        "visibility":{"meters":"10,000+","meters_float":9999,"miles":"Greater than 6","miles_float":6.21},
+        "wind":{"degrees":250,"speed_kph":13,"speed_kts":7,"speed_mph":8,"speed_mps":4}},
+{"barometer":{"hg":30.09,"hpa":1019.0,"kpa":101.89,"mb":1018.92},"clouds":[{"code":"CAVOK","text":"Clear skies"}],"dewpoint":{"celsius":10,"fahrenheit":50},"elevation":{"feet":1932,"meters":589},"flight_category":"VFR","humidity":{"percent":29},"icao":"LEMD","observed":"2022-09-09T13:00Z","raw_text":"LEMD 091300Z 24005KT 130V290 CAVOK 30/10 Q1019 NOSIG","station":{"geometry":{"coordinates":[-3.56264,40.471926],"type":"Point"},"location":"Madrid, ES","name":"Adolfo SuГЎrez MadridвЂ“Barajas Airport","type":"Airport"},"temperature":{"celsius":30,"fahrenheit":86},"visibility":{"meters":"10,000+","meters_float":9999,"miles":"Greater than 6","miles_float":6.21},"wind":{"degrees":240,"speed_kph":9,"speed_kts":5,"speed_mph":6,"speed_mps":3}}],"results":2}
