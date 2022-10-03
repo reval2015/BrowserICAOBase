@@ -23,6 +23,19 @@ func makeCountryID() {
         country_codes = String(country_codes.suffix(y1 - i*3))
     }
   }
-//let APIKey = "t3phKrYKs9blyEoqqXLbCKKA2DPhcpUQ"/* MATAR-TAF*/
 let urlCheckWX = "https://api.checkwx.com"
-let APIKey = "?x-api-key=2b4a5afe826746e5b0ce5218b2"/*CheckWX API*/
+
+struct Column {
+    let id: Int
+    let text: String
+}
+ 
+func makeColumn0()-> [Column]{
+    var col: [Column] = []
+    let rowName: [String]
+    = ["Date,time","Clouds","Weather","Visibility","Ceiling","Wind","Wind speed","Gust speed"]
+        for i in 0...rowName.count-1{
+            col.append(Column(id: i, text: rowName[i]))
+    }
+    return col
+}

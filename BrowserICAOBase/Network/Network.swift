@@ -127,6 +127,15 @@ class FileAirportViewModel:  ObservableObject {
     func restore(){self.state = State.idle
         self.setSemafor30min = true
     }
+    func reloadMETARTAF(){
+    let date = Date()
+    let calendar = Calendar.current
+    let minutes = calendar.component(.minute, from: date)
+        if minutes == 30 || minutes == 0{
+            self.restore()
+            print(minutes)
+        }
+    }
 func getListAirportFile() {
  let arrayA =  getAirportFile()
     self.arrayAirport = []
@@ -179,10 +188,10 @@ func LoadMETAR_Decode(ICAOCode: String){
                                 if arrayMETAR[i1].icao == self.arrayAirport[i].ID_ICAO{
                                         let y = arrayMETAR[i1].clouds?.count ?? 0
                                         let y1 = arrayMETAR[i1].conditions?.count ?? 0
-                                        if y > 0{
-                                                weather = setWeather(name: arrayMETAR[i1], i: 0, z: 0)
+                                        if y1 > 0{
+                                                weather = setWeather(name: arrayMETAR[i1], i: 0, z: 1)
                                         }
-                                        else{if y1 > 0{weather = setWeather(name: arrayMETAR[i1], i: 0, z: 1)}}
+                                        else{if y > 0{weather = setWeather(name: arrayMETAR[i1], i: 0, z: 0)}}
                                         self.arrayAirport[i].color = .blue
                                         self.arrayAirport[i].weather = weather
                                         break

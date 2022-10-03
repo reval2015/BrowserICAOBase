@@ -10,6 +10,7 @@ import SwiftUI
 struct METARView: View {
     var airport: sAirport
     var name: [METAR_Data]
+    @State private var offset = CGPoint.zero
     var body: some View {
         if name.count > 0{
         VStack{
@@ -21,8 +22,8 @@ struct METARView: View {
                                 Circle().fill(airport.color)
                                     .frame(width:220, height: 220)
                     Image(airport.weather).resizable()
-                        .frame(width: 200.0, height: 200.0, alignment: .center)
-                        .clipShape(Circle())
+                        .frame(width: 100.0, height: 100.0, alignment: .center)
+                        //.clipShape(Circle())
                     }.padding(.leading, 5.0)
                     Text(airport.name).font(.system(size: 20))
                     Text(airport.ID_ICAO).font(.system(size: 12))
@@ -99,10 +100,11 @@ struct METARView: View {
                 if name[0].raw_text!.contains("NSW")
                 {Text("NSW").foregroundColor(.black) }
                 }
-            HStack{
+                HStack{
                 Label(" ", systemImage: "wind").foregroundColor(.blue)
+                    if !name[0].raw_text!.contains("00KT"){
                 if !name[0].raw_text!.contains("VRB"){
-            Text(" " + String(name[0].wind!.degrees!) + "°   ") .foregroundColor(.black)
+            Text(" " + String(name[0].wind?.degrees! ?? 0) + "°   ") .foregroundColor(.black)
             if name[0].raw_text!.contains("0V"){
                 Text(Angle1_2(name: name[0])).foregroundColor(.black)}}
                 else {Text("Var").foregroundColor(.black)}
@@ -113,6 +115,8 @@ struct METARView: View {
                 if  search_GKT(name: name[0]){
                         Image(systemName:"wind").foregroundColor(.black)
                 }
+                }
+                    else{Text(" NONE ").foregroundColor(.black)}
             }
             HStack{
                 Text("Cloudbase:").fontWeight(.light).foregroundColor(.black)
@@ -135,6 +139,12 @@ struct METARView: View {
             Text(name[0].raw_text!).foregroundColor(.black)
         }.frame(width: 300.0,   alignment: .leading)
         .background(Color(hue: 0.683, saturation: 0.291, brightness: 0.731))
+            HStack {
+                VStack {
+            ScrollView([.vertical]) {
+                                rowsHeader.offset(y: offset.y)
+                            }.disabled(true)
+                }
             ScrollView(.horizontal,showsIndicators: true) {
                 VStack{
                     HStack(spacing: 15) {
@@ -142,15 +152,35 @@ struct METARView: View {
                             TARView(name: TAFT)
                         }
                     }.padding(.top, 10)
-                }}.frame(width: 300.0, height: 180)
+                }}.frame(width: 230.0, height: 180)
+            }.frame(width: 300.0,height: 180,alignment: .leading)
             ScrollView(.vertical,showsIndicators: true){
                 VStack(alignment: .leading) {
                     ForEach(Raw_KR(name: arrayTAF[airport.ID]), id: \.id){ TAF_RAW in
                         Text(TAF_RAW.Stroka).foregroundColor(.black)
                     }}}.frame(width: 300.0, height: 100,  alignment: .leading)
                 .background(Color(hue: 0.683, saturation: 0.291, brightness: 0.731))
+            }
     }
-    }
+    var rowsHeader: some View {
+            VStack(alignment: .leading, spacing:  0) {
+                ForEach(makeColumn0(),id: \.id) { row in
+                    if row.id == 1 || row.id == 2 {   Text(row.text)
+                            .foregroundColor(.secondary)
+                            .font(.system(size: 12))
+                            .frame(width: 70, height: 40)
+                            //.border(Color.blue)
+                    }
+                    else{
+                    Text(row.text)
+                        .foregroundColor(.secondary)
+                        .font(.system(size: 12))
+                        .frame(width: 70, height: 15)
+                        //.border(Color.blue)
+                    }
+                }
+            }
+        }
 }
 struct METARView_Previews: PreviewProvider {
     static var previews: some View {

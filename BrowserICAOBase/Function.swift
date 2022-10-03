@@ -9,8 +9,8 @@ import Foundation
 func setWeather(name: METAR_Data, i: Int,z: Int)-> String{
 var ImageS: String = ""
 var codeS: String = ""
-if z == 0 {codeS = (name.clouds?[i].code!)!}
-if z > 0 { codeS = name.conditions![i].code!}
+if z == 0 {codeS = (name.clouds?[i].code!) ?? ""}
+if z > 0 { codeS = name.conditions?[i].code! ?? ""}
 if !codeS.isEmpty {
 switch (codeS) {
 case "BKN":
@@ -46,7 +46,7 @@ case "SCT":
 if (Int((name.observed!.prefix(13)).suffix(2))! > 6) && (Int((name.observed!.prefix(13)).suffix(2))! < 18){ ImageS = ("scattered")}
 else{ImageS = ("n-scattered")}
     break
-case "SH":
+case "SHRA":
  ImageS = ("rain")//shower
     if z == 1 {if name.conditions![i].prefix == "-" {ImageS = ("light-rain")}}
     break
@@ -109,7 +109,7 @@ case "SCT":
 if (name.time1 > 6) && (name.time1 < 18){ ImageS = ("scattered")}
 else{ImageS = ("n-scattered")}
     break
-case "SH":
+case "SHRA":
  ImageS = ("rain")//shower
     if i == 2 {if name.conditions_code.prefix(1) == "-" {ImageS = ("light-rain")}}
     break
@@ -134,31 +134,7 @@ default:
 }}
     return ImageS
 }
-func LoadMETARTAF(){
-let date = Date()
-let calendar = Calendar.current
-let minutes = calendar.component(.minute, from: date)
- /*
-            if((arrayMETAR).isEmpty) { LoadMETAR_Decode(ICAOCode: "EDDF,LEMD")
-                LoadTAF_Decode(ICAOCode: "EDDF,LEMD")
-                //LoadNOTAM_Decode(ICAOCode: "EDDF,LEMD")
-                //TAFTableV0 = CreateTAFTable(TAF: arrayTAF[0] )
-                //TAFTableV1 =  CreateTAFTable(TAF: arrayTAF[1] )
-            }
-            else{
-                if minutes > 21 && minutes < 29 {
-                    LoadMETAR_Decode(ICAOCode: "EDDF,LEMD")
-                    LoadTAF_Decode(ICAOCode: "EDDF,LEMD")
-                    
-                }else{
-                    if minutes > 51 && minutes < 59 {
-                        LoadMETAR_Decode(ICAOCode: "EDDF,LEMD")
-                        LoadTAF_Decode(ICAOCode: "EDDF,LEMD")
-                        
-                    }
-                }
-}*/
-}
+
 func Angle1_2(name: METAR_Data) -> String{
     var angl1 = ""
     let text = Array(name.raw_text!)

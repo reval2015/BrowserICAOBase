@@ -29,7 +29,7 @@ struct ContentView: View {
                            Circle().fill(name.color)
                                        .frame(width: 25, height: 25)
                        Image(name.weather).resizable()
-                           .frame(width: 25.0, height: 25.0, alignment: .leading)
+                           .frame(width: 20.0, height: 20.0, alignment: .leading)
                            .clipShape(Circle())
                        }.padding(.leading, 5.0)
                         VStack(alignment: .leading){
@@ -94,6 +94,7 @@ struct ContentView: View {
     }
     var city: String {
             if searchText.isEmpty{
+                viewModel.reloadMETARTAF()
                 return ("")
             }
             else{ if searchText.count > 3{
