@@ -148,7 +148,7 @@ struct METARView: View {
             ScrollView(.horizontal,showsIndicators: true) {
                 VStack{
                     HStack(spacing: 15) {
-                        ForEach(CreateTAFTable(TAF: arrayTAF[airport.ID] ),id: \.id) { TAFT in
+                        ForEach(CreateTAFTable(TAF: arrayTAF[airportID] ),id: \.id) { TAFT in
                             TARView(name: TAFT)
                         }
                     }.padding(.top, 10)
@@ -156,7 +156,7 @@ struct METARView: View {
             }.frame(width: 300.0,height: 180,alignment: .leading)
             ScrollView(.vertical,showsIndicators: true){
                 VStack(alignment: .leading) {
-                    ForEach(Raw_KR(name: arrayTAF[airport.ID]), id: \.id){ TAF_RAW in
+                    ForEach(Raw_KR(name: arrayTAF[airportID]), id: \.id){ TAF_RAW in
                         Text(TAF_RAW.Stroka).foregroundColor(.black)
                     }}}.frame(width: 300.0, height: 100,  alignment: .leading)
                 .background(Color(hue: 0.683, saturation: 0.291, brightness: 0.731))
@@ -181,6 +181,14 @@ struct METARView: View {
                 }
             }
         }
+    var airportID: Int{
+        for i in 0...arrayTAF.count-1{
+            if airport.ID_ICAO == arrayTAF[i].icao{
+            return i
+            }
+        }
+        return 0
+    }
 }
 struct METARView_Previews: PreviewProvider {
     static var previews: some View {

@@ -25,7 +25,8 @@ func CreateTAFTable(TAF: TAF_Decoded)-> [TAFTable]  {
     var time1: Int = 0
     time1 = Int((TAF.timestamp!.from!.prefix(13)).suffix(2))!
     var date = Int((TAF.timestamp!.from!.prefix(10)).suffix(2))!
-    var date1 = Int((TAF.timestamp!.to!.prefix(10)).suffix(2))!
+    let date1 = Int((TAF.timestamp!.to!.prefix(10)).suffix(2))!
+    if time1 > 23 {time1 = time1 - 24; date = date + 1;if date1 < date {date = 1}}
     var y = 0
     for i in 0 ... 29 {
         TAFTableV.append(TAFTable(id: i,date1: date,time1: time1 , clouds_code: "NSC",conditions_code: "NSW", ceiling: "",

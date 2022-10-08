@@ -29,6 +29,10 @@ case "OVC":
  ImageS  = ("overcast")
     break
 case "BCFG":
+ ImageS = ("n-mist")
+    if (Int((name.observed!.prefix(13)).suffix(2))! > 6) && (Int((name.observed!.prefix(13)).suffix(2))! < 18){ ImageS = ("mist")}
+    break
+case "FG":
  ImageS = ("fog")
     break
 case "BR":
@@ -92,6 +96,10 @@ case "OVC":
  ImageS  = ("overcast")
     break
 case "BCFG":
+ ImageS = ("mist")
+    if (name.time1 > 6) && (name.time1 < 18){ ImageS = ("mist")}
+    break
+case "FG":
  ImageS = ("fog")
     break
 case "BR":

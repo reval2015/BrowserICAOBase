@@ -32,7 +32,7 @@ struct DataManager {
         }
         if array.count > 0{
             for j in 0 ... array.count-1{
-                if airport.ID   == array[j].ID  {
+                if airport.ID_ICAO   == array[j].ID_ICAO  {
                     try! realm1?.write {
                         airport.ID   = array[j].ID
                     }
@@ -53,7 +53,7 @@ struct DataManager {
                 // Delete the realm if a migration would be required, instead of migrating it.
                 // While it's useful during development, do not leave this set to `true` in a production app!
                 let configuration = Realm.Configuration(deleteRealmIfMigrationNeeded: false)
-                let realm1 = try Realm(configuration: configuration)
+                _ = try Realm(configuration: configuration)
                 _ = try Realm.deleteFiles(for: configuration)
           } catch {
                 print("Error opening realm: \(error.localizedDescription)")

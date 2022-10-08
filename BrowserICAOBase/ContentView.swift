@@ -11,10 +11,12 @@ struct ContentView: View {
    @ObservedObject var viewModel: FileAirportViewModel
     @State private var searchText = ""
     @State private var selectionA: String? = nil
+    let timer30min = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     var body: some View {
         NavigationView {
             VStack(alignment: .leading){
                 TextField("Enter a country and city", text: $searchText)
+                    
                 switch viewModel.state{
                 case .idle:
                     Color.clear.onAppear(perform: viewModel.getListAirportFile)
@@ -44,21 +46,19 @@ struct ContentView: View {
                    .contextMenu {
                        Button(action: {if name.ID_ICAO == selectionA {deleteAirportsmacos()}}){
                        Text("Delete")
-                       }
-                    }
-                            
+                       }}
                         }.onDelete(perform:deleteAirports)//on
-                    }
-                }
+                    }//endList
+                }//endSwitch
                 NavigationLink{
                     if country != "" && city != "" {
                         addAirport(viewModel: ListAirportViewModel(country: country, city: city))
                     }
                 }label: {Text("Add Airport")}.frame(width: 300,alignment: .center)
-                }
+                }//.onReceive(timer30min) {_ in viewModel.restore()}
         }.navigationTitle("Airports")
             .onAppear(perform: viewModel.restore)
-                .frame(width: 800, height: 800, alignment: .leading)
+            .frame(width: 800, height: 800, alignment: .leading)
     }//body
     func deleteAirports(at offsets: IndexSet){
         for i in 0...viewModel.arrayAirport.count-1{
@@ -69,6 +69,9 @@ struct ContentView: View {
                 arrayA.name = viewModel.arrayAirport[i].name
                 arrayA.city = viewModel.arrayAirport[i].city
                 deleteAirportFile(airport:  arrayA)
+                viewModel.arrayAirport.remove(at: i )
+                arrayMETAR.remove(at: i)
+                arrayTAF.remove(at: i)
                 print("delete " + selectionA!)
                 viewModel.restore()
                 break
@@ -85,7 +88,10 @@ struct ContentView: View {
                 arrayA.name = viewModel.arrayAirport[i].name
                 arrayA.city = viewModel.arrayAirport[i].city
                 deleteAirportFile(airport:  arrayA )
-                //viewModel.arrayAirport.remove(at: i )
+                viewModel.arrayAirport.remove(at: i )
+                viewModel.arrayAirportRenew()
+                arrayMETAR.remove(at: i)
+                arrayTAF.remove(at: i)
                 print("Delete " + selectionA!)
                 //viewModel.restore()
                 break
@@ -94,7 +100,6 @@ struct ContentView: View {
     }
     var city: String {
             if searchText.isEmpty{
-                viewModel.reloadMETARTAF()
                 return ("")
             }
             else{ if searchText.count > 3{

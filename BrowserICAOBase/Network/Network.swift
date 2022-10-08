@@ -13,33 +13,6 @@ import Accessibility
  
 
 var arrayTAF: [TAF_Decoded] = []
-
-func LoadNOTAM_Decode(ICAOCode: String){
-    //arrayMETAR = []
-let url = "https://notams.aim.faa.gov/notamSearch"
-        let URL1: URL = URL(string: url)!
-    let queryParameters: [String: Any] = [
-     "reportType": "RAW",
-      "method": "displayByICAOs",
-      "actionType": "notamRetrievalByICAOs",
-     "Email": "reval2007@gmail.com",
-     "Password": "rikoshet@2022A",
-      "retrieveLocId": ICAOCode]
-        AF.request(URL1/*,parameters: queryParameters*/)//.validate()
-        //.responseDecodable(of: TAFs.self)
-        .responseString
-    { responce in
-         print( responce)
-        /*   do {  let allData = try JSONDecoder().decode(TAFs.self, from: responce.data!)
-          arrayTAF = allData.data ?? []
-           print (arrayTAF.count )
-           
-                }catch{
-                    print(error)
-                }*/
-        }
-   
-}
 class ListAirportViewModel: ObservableObject {
     enum State {
             case idle
@@ -124,10 +97,22 @@ class FileAirportViewModel:  ObservableObject {
         self.arrayAirport  = []
         setSemafor30min = true
     }
-    func restore(){self.state = State.idle
-        self.setSemafor30min = true
+    func restore(){
+        switch self.state {
+        case .idle:
+            break
+        case .loading:
+            break
+        default:
+            self.state = State.idle
+            self.setSemafor30min = true
+                
+            }
     }
-    func reloadMETARTAF(){
+    func arrayAirportRenew(){
+        self.state = .loaded(self.arrayAirport)
+    }
+/*    func reloadMETARTAF(){
     let date = Date()
     let calendar = Calendar.current
     let minutes = calendar.component(.minute, from: date)
@@ -135,7 +120,7 @@ class FileAirportViewModel:  ObservableObject {
             self.restore()
             print(minutes)
         }
-    }
+    }*/
 func getListAirportFile() {
  let arrayA =  getAirportFile()
     self.arrayAirport = []
@@ -154,7 +139,8 @@ func getListAirportFile() {
         print("loadFile " + String(arrayA.count))
         if arrayMETAR.count  != indF || self.setSemafor30min {// set loadMetar every 30 min
             loadMETAR()
-        }
+            self.state = .loading
+        }else{self.state = .loading}
     }
 }
 func loadMETAR() {
